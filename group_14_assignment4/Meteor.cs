@@ -15,11 +15,34 @@ public class Meteor
     private float _bodyWiggle;
     private float _size;
     private float _tailWiggle;
+    private float _tailWiggleSpeed;
+    
+    private float _t;
+    
 
-    public Meteor(Texture2D bodyTexture, Texture2D tailTexture)
+    public Meteor(Texture2D bodyTexture, Texture2D tailTexture, float size)
     {
         _bodyTexture = bodyTexture;
         _tailTexture = tailTexture;
+        _size = size;
+        _t = 0;
+
+    }
+
+    public void Animate(GameTime gameTime, Vector2 start, Vector2 end)
+    {
+
+        float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        _t += dt;
+        _tailWiggle = 0.4f * (float)System.Math.Sin(_tailWiggleSpeed * _t);
+
+        float distance = (end - start).Length();
+
+        float duration = distance / _bodySpeed; 
+
+        _bodyPosition.X += MathHelper.Lerp(start.X, end.X, _t/duration);
+        _bodyPosition.Y += MathHelper.Lerp(start.Y, end.Y, _t/duration);
+
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -42,7 +65,7 @@ public class Meteor
         Matrix M_childLocal =
             Matrix.CreateTranslation(-childOrigin.X, -childOrigin.Y, 0f) *
             Matrix.CreateRotationZ(_tailWiggle) *
-            Matrix.CreateTranslation(-70f, 0f, 0f);
+            Matrix.CreateTranslation(0f, 0f, 0f);
 
         
         // Composes the child and parent transformations 
