@@ -9,25 +9,37 @@ public class Meteor
     private Texture2D _tailTexture;
 
     private Vector2 _bodyPosition;
-    private Vector2 _tailPosition;
     private float _bodyRotation;
     private float _bodySpeed;
     private float _bodyWiggle;
     private float _size;
     private float _tailWiggle;
     private float _tailWiggleSpeed;
+    private Vector2 _startPosition;
+    private float _startSize;
     
     private float _t;
     
 
-    public Meteor(Texture2D bodyTexture, Texture2D tailTexture, float size)
+    public Meteor(Texture2D bodyTexture, Texture2D tailTexture, float size, Vector2 bodyPosition)
     {
         _bodyTexture = bodyTexture;
         _tailTexture = tailTexture;
         _size = size;
+        _startSize = size;
         _t = 0;
+        _bodyPosition = bodyPosition;
+        _startPosition =  bodyPosition;
 
     }
+
+    public void ResetAnimation()
+    {
+        _t = 0f;
+        _bodyPosition = _startPosition;
+        _size = _startSize;
+    }
+
 
     public void Animate(GameTime gameTime, Vector2 start, Vector2 end)
     {
