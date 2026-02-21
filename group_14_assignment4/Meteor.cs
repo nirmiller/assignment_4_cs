@@ -10,16 +10,17 @@ public class Meteor
 
     private Vector2 _bodyPosition;
     private float _bodyRotation;
-    private float _bodySpeed;
     private float _bodyWiggle;
     private float _size;
     private float _tailWiggle;
     private float _tailWiggleSpeed;
     private Vector2 _startPosition;
     private float _startSize;
-    
+    private float stepSize;
+    private float _spin;
     private float _t;
-    
+
+    private Vector2 _dir;
 
     public Meteor(Texture2D bodyTexture, Texture2D tailTexture, float size, Vector2 bodyPosition)
     {
@@ -29,8 +30,10 @@ public class Meteor
         _startSize = size;
         _t = 0;
         _bodyPosition = bodyPosition;
-        _startPosition =  bodyPosition;
-
+        _startPosition = bodyPosition;
+        stepSize = 0;
+        _tailWiggleSpeed = 2f;
+        _dir = Vector2.UnitX;
     }
 
     public void ResetAnimation()
@@ -38,53 +41,65 @@ public class Meteor
         _t = 0f;
         _bodyPosition = _startPosition;
         _size = _startSize;
+        stepSize = 0f;
+        _dir = Vector2.UnitX;
+        _bodyRotation = 0f;
     }
 
-
-    public void Animate(GameTime gameTime, Vector2 start, Vector2 end)
+    public void Animate(GameTime gameTime, Vector2 start, Vector2 end, float duration)
     {
-
         float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
         _t += dt;
-        _tailWiggle = 0.4f * (float)System.Math.Sin(_tailWiggleSpeed * _t);
+        float totalFrames = duration * 60f;
+        float step = 1f / totalFrames;
 
-        float distance = (end - start).Length();
+        stepSize += step;
+        _tailWiggle = .3f * (float)System.Math.Sin(_tailWiggleSpeed * _t);
+        _spin += dt * 3f;   
+        Vector2 v = end - start;
+        if (v.LengthSquared() > 0f)
+            _dir = Vector2.Normalize(v);
 
-        float duration = distance / _bodySpeed; 
+        _bodyRotation = (float)System.Math.Atan2(_dir.Y, _dir.X);
 
-        _bodyPosition.X += MathHelper.Lerp(start.X, end.X, _t/duration);
-        _bodyPosition.Y += MathHelper.Lerp(start.Y, end.Y, _t/duration);
-
+        _bodyPosition.X = MathHelper.Lerp(start.X, end.X, stepSize);
+        _bodyPosition.Y = MathHelper.Lerp(start.Y, end.Y, stepSize);
     }
+    
 
     public void Draw(SpriteBatch spriteBatch)
     {
         Vector2 parentOrigin = new Vector2(_bodyTexture.Width / 2f, _bodyTexture.Height / 2f);
-        Vector2 childOrigin  = new Vector2(_tailTexture.Width / 2f, _tailTexture.Height / 2f);
 
-        
-        // Moves parent spot around the screen
         Matrix M_parent =
-            Matrix.CreateTranslation(-parentOrigin.X, -parentOrigin.Y, 0f) * 
+            Matrix.CreateTranslation(-parentOrigin.X, -parentOrigin.Y, 0f) *
+            Matrix.CreateScale(_size, _size, 1f) *
+            Matrix.CreateRotationZ(_bodyRotation) *
             Matrix.CreateTranslation(_bodyPosition.X, _bodyPosition.Y, 0f);
 
-        spriteBatch.Begin(transformMatrix: M_parent*Matrix.CreateRotationZ(_bodyRotation));
-        spriteBatch.Draw(_bodyTexture, Vector2.Zero, Color.White); 
-        spriteBatch.End();
+        Vector2 tailBaseOrigin = new Vector2(_tailTexture.Width, _tailTexture.Height);
+        Vector2 socketLocal = new Vector2((_bodyTexture.Width / 2f), (_bodyTexture.Height / 2f));
+        float tailArtOffset = -MathHelper.Pi / 3;
 
-        
-        // Hierarchy from parent node, and wiggles fire side-to-side locally 
         Matrix M_childLocal =
-            Matrix.CreateTranslation(-childOrigin.X, -childOrigin.Y, 0f) *
-            Matrix.CreateRotationZ(_tailWiggle) *
-            Matrix.CreateTranslation(0f, 0f, 0f);
+            Matrix.CreateTranslation(-tailBaseOrigin.X, -tailBaseOrigin.Y, 0f) *
+            Matrix.CreateRotationZ(tailArtOffset + _tailWiggle) *
+            Matrix.CreateTranslation(socketLocal.X, socketLocal.Y, 0f);
 
-        
-        // Composes the child and parent transformations 
         Matrix M_childWorld = M_childLocal * M_parent;
 
         spriteBatch.Begin(transformMatrix: M_childWorld);
         spriteBatch.Draw(_tailTexture, Vector2.Zero, Color.White);
+        spriteBatch.End();
+
+        Matrix M_body =
+            Matrix.CreateTranslation(-parentOrigin.X, -parentOrigin.Y, 0f) *
+            Matrix.CreateScale(_size, _size, 1f) *
+            Matrix.CreateRotationZ(_bodyRotation + _spin) *
+            Matrix.CreateTranslation(_bodyPosition.X, _bodyPosition.Y, 0f);
+
+        spriteBatch.Begin(transformMatrix: M_body);
+        spriteBatch.Draw(_bodyTexture, Vector2.Zero, Color.White);
         spriteBatch.End();
     }
 }
