@@ -13,7 +13,7 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin imgs/comet_body.png
+#begin imgs/comet_body
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -25,7 +25,7 @@
 /processorParam:TextureFormat=Color
 /build:imgs/comet_body.png
 
-#begin imgs/comet_tail.png
+#begin imgs/comet_tail
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -37,7 +37,7 @@
 /processorParam:TextureFormat=Color
 /build:imgs/comet_tail.png
 
-#begin imgs/meteor_body.png
+#begin imgs/meteor_body
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -49,7 +49,7 @@
 /processorParam:TextureFormat=Color
 /build:imgs/meteor_body.png
 
-#begin imgs/meteor_tail.png
+#begin imgs/meteor_tail
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -61,7 +61,7 @@
 /processorParam:TextureFormat=Color
 /build:imgs/meteor_tail.png
 
-#begin imgs/sparkle.png
+#begin imgs/sparkle
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -73,7 +73,7 @@
 /processorParam:TextureFormat=Color
 /build:imgs/sparkle.png
 
-#begin imgs/star.png
+#begin imgs/star
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255

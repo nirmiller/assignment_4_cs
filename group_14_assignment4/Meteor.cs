@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -52,9 +53,9 @@ public class Meteor
         _t += dt;
         float totalFrames = duration * 60f;
         float step = 1f / totalFrames;
-
+        
         stepSize += step;
-        _tailWiggle = .3f * (float)System.Math.Sin(_tailWiggleSpeed * _t);
+        _tailWiggle = .1f * (float)System.Math.Sin(_tailWiggleSpeed * _t);
         _spin += dt * 3f;   
         Vector2 v = end - start;
         if (v.LengthSquared() > 0f)
@@ -64,6 +65,11 @@ public class Meteor
 
         _bodyPosition.X = MathHelper.Lerp(start.X, end.X, stepSize);
         _bodyPosition.Y = MathHelper.Lerp(start.Y, end.Y, stepSize);
+        
+        if (MathF.Abs(_bodyPosition.X - _startPosition.X) >= 1200 || MathF.Abs(_bodyPosition.Y - _startPosition.Y) >= 1200)
+        {
+            ResetAnimation();
+        }
     }
     
 
@@ -84,7 +90,8 @@ public class Meteor
         Matrix M_childLocal =
             Matrix.CreateTranslation(-tailBaseOrigin.X, -tailBaseOrigin.Y, 0f) *
             Matrix.CreateRotationZ(tailArtOffset + _tailWiggle) *
-            Matrix.CreateTranslation(socketLocal.X, socketLocal.Y, 0f);
+            Matrix.CreateTranslation(socketLocal.X, socketLocal.Y, 0f)*
+            Matrix.CreateScale(_size/2, _size/2, 1f);
 
         Matrix M_childWorld = M_childLocal * M_parent;
 
@@ -97,6 +104,7 @@ public class Meteor
             Matrix.CreateScale(_size, _size, 1f) *
             Matrix.CreateRotationZ(_bodyRotation + _spin) *
             Matrix.CreateTranslation(_bodyPosition.X, _bodyPosition.Y, 0f);
+            
 
         spriteBatch.Begin(transformMatrix: M_body);
         spriteBatch.Draw(_bodyTexture, Vector2.Zero, Color.White);

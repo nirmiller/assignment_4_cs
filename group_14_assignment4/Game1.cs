@@ -48,8 +48,8 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         
-        meteorStartPosition = new Vector2(100, 100);
-        cometStartPosition = new Vector2(0, 100);
+        meteorStartPosition = new Vector2(800, 200);
+        cometStartPosition = new Vector2(800, 400);
         
         meteor = new Meteor(Content.Load<Texture2D>("imgs/meteor_body"), 
             Content.Load<Texture2D>("imgs/meteor_tail")
@@ -79,8 +79,8 @@ public class Game1 : Game
         // TODO: Add your update logic here
         
         
-        meteor.Animate(gameTime, meteorStartPosition, new Vector2(800, 800), 5);
-        comet.Animate(gameTime, cometStartPosition, new Vector2(500, 500), 5);
+        meteor.Animate(gameTime, meteorStartPosition, new Vector2(0, 300), 5);
+        comet.Animate(gameTime, cometStartPosition, new Vector2(0, 500), 5);
         
         foreach (var star in _stars)
         {
