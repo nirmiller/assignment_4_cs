@@ -111,11 +111,9 @@ namespace group_14_assignment4
                 0f
             );
 
-            // ----- CHILD SPARKLE DRAW -----
-
             float alpha = (float)(0.5f + 0.5f * Math.Sin(_sparkleTimer));
 
-            // Color shifting (fake hue shift)
+            // Color shifting
             float r = 0.5f + 0.5f * (float)Math.Sin(_sparkleTimer);
             float g = 0.5f + 0.5f * (float)Math.Sin(_sparkleTimer + 2f);
             float b = 0.5f + 0.5f * (float)Math.Sin(_sparkleTimer + 4f);
