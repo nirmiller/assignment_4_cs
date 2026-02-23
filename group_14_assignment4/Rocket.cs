@@ -55,9 +55,6 @@ public class Rocket
         _scaleSpeed = scaleSpeed;
         
         _exhaustVerticalOffset = exhaustVerticalOffset;
-
-        //_exhaustShakeAmount = exhaustShakeAmount;
-        //_exhaustShakeSpeed = exhaustShakeSpeed;
     
         _exhaust = new Exhaust(exhaustTexture, exhaustShakeAmount, exhaustShakeSpeed, _exhaustVerticalOffset);
     }
@@ -73,7 +70,6 @@ public class Rocket
         if (_isScalingDown)
         {
             _currentRocketScale -= _scaleSpeed * dt;
-            //_currentRocketScale -= 0.01f;
 
             // if it hits the min scale make _isScalingDown false
             if (_currentRocketScale <= _minRocketScale)
@@ -85,7 +81,6 @@ public class Rocket
         else
         {
             _currentRocketScale += _scaleSpeed * dt;
-            //_currentRocketScale += 0.01f;
             
             // changes _isScalingDown to true when it hits max
             if (_currentRocketScale >= _maxRocketScale)

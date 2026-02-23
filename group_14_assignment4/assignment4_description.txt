@@ -1,0 +1,31 @@
+Intended Animation: 
+The animations is a space scene that has twinkling stars in the background, meteor flying, and rockets 
+traveling upwards.
+
+Rocket Class: 
+The Rocket class accepts a Texture2D for the rocket body and the exhaust, a Vector2 for the rocket 
+start position and rocket speed, and floats for the max size the scale the rocket, the min size to 
+scale the rocket, the initial rocket scale, the speed the scale changes, the amount the exhaust 
+shakes, the speed the exhaust shakes, and an amount the exhaust will be offset vertically. The base
+level animation translates the rockets up the window while also changing the scale (for example 
+having the scale slide between 1 and 0.9) to give it a shaking effect. There is then the exhaust 
+animation that follows the rocket body with a slight offset and translates up and down slightly.
+
+Star Class: 
+The Star class accepts a Texture2D for the star and sparkle. The base animation scales, rotates 
+then translates the star. Then there is the sparkle that moves with its with the start and that 
+has a random offset from the star. It also uses a sin function to fade in and out and gradually 
+change colors. 
+
+Meteor Class: 
+The Meteor class accepts a Texture2D for body texture and tail texture, a float for the size of 
+the meteor and a Vector2 for the position of the body. The base animation translates, scales, and
+then rotates. The tail is positioned relative to the body and used a sin function to implement a 
+wiggle in the tail. 
+
+Meagan worked on the rocket class and added the planet to be part of the background, Nir worked on
+the meteor class and created the git hub, and Chris made the star class. We all called our 
+respective parts within Game1.
+
+Challenges: 
+We did not encounter any unexpected challenges. 
